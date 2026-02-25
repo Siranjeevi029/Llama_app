@@ -1,0 +1,12 @@
+venv activate
+& "C:/Siranjeevi/AI INTERN/llama-app/llama-app/.venv/Scripts/Activate.ps1"
+
+uv run generate to load the docs inside the test index (db) inside .venv
+
+cd "c:/Siranjeevi/AI INTERN/llama-app/llama-app"
+uv run -m llama_deploy.apiserver
+run normally inside the venv
+
+cd "c:/Siranjeevi/AI INTERN/llama-app/llama-app"
+curl -X POST "http://localhost:4501/deployments/create?reload=false&local=true&base_path=C%3A%2FSiranjeevi%2FAI%20INTERN%2Fllama-app%2Fllama-app" -F "config_file=@llama_deploy.yml"
+#start it using gitbash inside venv

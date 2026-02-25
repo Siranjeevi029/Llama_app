@@ -49,7 +49,9 @@ class LLamaCloudFileService:
                 "custom_metadata": {"file_id": file_id, **(custom_metadata or {})},
             }
         ]
-        files = client.pipelines.add_files_to_pipeline_api(pipeline_id, request=files)
+        files = client.pipeline_files.add_files_to_pipeline_api(
+            pipeline_id, request=files
+        )
 
         if not wait_for_processing:
             return file_id
@@ -58,7 +60,7 @@ class LLamaCloudFileService:
         max_attempts = 20
         attempt = 0
         while attempt < max_attempts:
-            result = client.pipelines.get_pipeline_file_status(
+            result = client.pipeline_files.get_pipeline_file_status(
                 file_id=file_id, pipeline_id=pipeline_id
             )
             if result.status == ManagedIngestionStatus.ERROR:

@@ -1,5 +1,26 @@
-__pycache__
-storage
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Env
 .env
-output
-.ui/
+.env.*
+
+# Node/Frontend
+ui/node_modules/
+ui/.env.local
+ui/.next/
+ui/dist/
+ui/build/
+
+# OS noise
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log

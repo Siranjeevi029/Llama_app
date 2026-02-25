@@ -8,7 +8,7 @@ from llama_index.llms.openai import OpenAI
 def init_settings():
     if os.getenv("OPENAI_API_KEY") is None:
         raise RuntimeError("OPENAI_API_KEY is missing in environment variables")
-    Settings.llm = OpenAI(model=os.getenv("MODEL") or "gpt-4.1")
+    Settings.llm = OpenAI(model=os.getenv("MODEL") or "gpt-4o-mini")
     Settings.embed_model = OpenAIEmbedding(
-        model=os.getenv("EMBEDDING_MODEL") or "text-embedding-3-large"
+        model=os.getenv("EMBEDDING_MODEL") or "text-embedding-3-small"
     )
