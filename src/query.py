@@ -32,7 +32,7 @@ def create_query_engine(
     if index is None:
         raise ValueError("Either index or retriever must be provided.")
 
-    top_k = int(os.getenv("TOP_K", 0))
+    top_k = int(os.getenv("TOP_K", 6))
     if top_k != 0 and kwargs.get("filters") is None:
         kwargs["similarity_top_k"] = top_k
 

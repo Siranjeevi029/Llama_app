@@ -5,17 +5,20 @@ description = ""
 readme = "README.md"
 requires-python = ">=3.11,<3.14"
 dependencies = [
- "python-dotenv>=1.0.0,<2.0.0",
- "pydantic>=2.11.5",
- "aiostream>=0.5.2,<0.6.0",
- "llama-index-core>=0.12.28,<0.13.0",
- "llama-index-readers-file>=0.4.6,<1.0.0",
- "llama-index-indices-managed-llama-cloud>=0.6.3,<0.7.0",
- "llama-deploy",
- "docx2txt>=0.8,<0.9",
- "llama-index-llms-openai>=0.3.2,<0.4.0",
- "llama-index-embeddings-openai>=0.3.1,<0.4.0",
- "llama-cloud==0.1.45",
+  "python-dotenv>=1.0.0,<2.0.0",
+  "pydantic>=2.11.5",
+  "aiostream>=0.5.2,<0.6.0",
+  "llama-index-core>=0.12.28,<0.13.0",
+  "llama-index-readers-file>=0.4.6,<1.0.0",
+  "llama-index-indices-managed-llama-cloud>=0.6.3,<0.7.0",
+  "llama-deploy",
+  "docx2txt>=0.8,<0.9",
+  "llama-index-llms-groq>=0.2.0",
+  "llama-index-embeddings-gemini>=0.3.0",
+  "llama-index-embeddings-huggingface>=0.4.0",
+  "llama-cloud==0.1.45",
+  "rank-bm25>=0.2.0,<1.0.0",
+  "llama-index-retrievers-bm25>=0.3.0",
 ]
 
 [[project.authors]]
@@ -33,6 +36,13 @@ generate = "src.generate:generate_index"
 [tool.uv.sources]
 [tool.uv.sources.llama-deploy]
 git = "https://github.com/run-llama/llama_deploy"
+
+[tool.llamadeploy]
+name = "chat"
+
+[tool.llamadeploy.ui]
+directory = "ui"
+build_output_dir = "ui/.next"
 
 [tool.mypy]
 python_version = "3.11"

@@ -120,20 +120,42 @@ def _create_index(
     )
     if len(pipelines) == 0:
         from llama_index.embeddings.openai import OpenAIEmbedding
+        from llama_index.embeddings.gemini import GeminiEmbedding
 
-        if not isinstance(Settings.embed_model, OpenAIEmbedding):
+        embedding_type = None
+        embedding_component = {}
+        if isinstance(Settings.embed_model, OpenAIEmbedding):
+            openai_api_key = os.getenv("OPENAI_API_KEY")
+            if openai_api_key is None:
+                raise ValueError("OPENAI_API_KEY is required for OpenAI embeddings.")
+            embedding_type = "OPENAI_EMBEDDING"
+            embedding_component = {
+                "api_key": openai_api_key,
+                "model_name": os.getenv("EMBEDDING_MODEL"),
+            }
+        elif isinstance(Settings.embed_model, GeminiEmbedding):
+            gemini_api_key = os.getenv("GEMINI_API_KEY") or os.getenv("GOOGLE_API_KEY")
+            if gemini_api_key is None:
+                raise ValueError(
+                    "GEMINI_API_KEY (or GOOGLE_API_KEY) is required for Gemini embeddings."
+                )
+            embedding_type = "GEMINI_EMBEDDING"
+            embedding_component = {
+                "api_key": gemini_api_key,
+                "model_name": os.getenv("EMBEDDING_MODEL"),
+            }
+        else:
             raise ValueError(
-                "Creating a new pipeline with a non-OpenAI embedding model is not supported."
+                "Auto-creating a pipeline from this app currently supports OpenAI and Gemini embeddings. "
+                "For other embedding providers, create the pipeline in LlamaCloud first and set "
+                "LLAMA_CLOUD_INDEX_NAME to that existing pipeline."
             )
         client.pipelines.upsert_pipeline(
             request={
                 "name": pipeline_name,
                 "embedding_config": {
-                    "type": "OPENAI_EMBEDDING",
-                    "component": {
-                        "api_key": os.getenv("OPENAI_API_KEY"),  # editable
-                        "model_name": os.getenv("EMBEDDING_MODEL"),
-                    },
+                    "type": embedding_type,
+                    "component": embedding_component,
                 },
                 "transform_config": {
                     "mode": "auto",
